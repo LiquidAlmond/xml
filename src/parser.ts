@@ -59,7 +59,10 @@ export class Parser {
     const children: (string | Record<string, unknown> | null)[] = [];
 
     while (!this.startsWith("</")) {
-      this.skipComment();
+      while (this.startsWith("<!--")) {
+        this.skipComment();
+      }
+      if (this.startsWith("</")) break;
 
       if (this.startsWith("<![CDATA[")) {
         this.i += 9;

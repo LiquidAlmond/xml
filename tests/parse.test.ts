@@ -109,6 +109,18 @@ describe("XML.parse", () => {
     expect(parsed).toStrictEqual({ foo: "bar" } as XMLNode);
   });
 
+  test("should skip comments at end of mixed content", () => {
+    const input = "<foo>bar<!--comment--></foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: "bar" } as XMLNode);
+  });
+
+  test("should skip comments in middle of mixed content", () => {
+    const input = "<foo>bar<!--comment-->fizz</foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: { "#children": ["bar", "fizz"] } } as XMLNode);
+  });
+
   test("should skip multiple comments", () => {
     const input = "<foo><!--comment1--><!--comment2--><bar/></foo>";
     const parsed = XML.parse(input);
