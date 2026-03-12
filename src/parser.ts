@@ -17,6 +17,9 @@ export class Parser {
 
   parse(): any {
     this.skipDeclaration();
+    while (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
+      this.skipProcessingInstruction();
+    }
     const node = this.parseElement();
     return { [node.name]: node.value };
   }
@@ -40,6 +43,15 @@ export class Parser {
   private skipDeclaration(): void {
     if (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
       const end = this.xml.indexOf("?>", this.i);
+      if (end === -1) throw new Error(`Unclosed processing instruction at ${this.pos()}`);
+      this.advance(end - this.i + 2);
+    }
+  }
+
+  private skipProcessingInstruction(): void {
+    if (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
+      const end = this.xml.indexOf("?>", this.i);
+      if (end === -1) throw new Error(`Unclosed processing instruction at ${this.pos()}`);
       this.advance(end - this.i + 2);
     }
   }
@@ -79,6 +91,10 @@ export class Parser {
     while (!this.startsWith("</")) {
       while (this.startsWith("<!--")) {
         this.skipComment();
+      }
+      if (this.startsWith("</")) break;
+      while (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
+        this.skipProcessingInstruction();
       }
       if (this.startsWith("</")) break;
 

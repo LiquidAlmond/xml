@@ -137,6 +137,23 @@ describe("XML.parse", () => {
     expect(() => XML.parse(input)).toThrow(/line \d+, column \d+/);
   });
 
+  test("should skip processing instructions", () => {
+    const input = '<?xml-stylesheet type="text/xsl" href="style.xsl"?><foo>bar</foo>';
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: "bar" } as XMLNode);
+  });
+
+  test("should skip processing instructions in children", () => {
+    const input = "<foo><?target content?><bar/></foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: { bar: {} } } as XMLNode);
+  });
+
+  test("should throw on unclosed processing instruction", () => {
+    const input = "<foo><?unclosed";
+    expect(() => XML.parse(input)).toThrow("Unclosed processing instruction");
+  });
+
   test("should use reviver function", () => {
     const input = "<foo>123</foo>";
     const parsed = XML.parse(input, (k, v) => {
