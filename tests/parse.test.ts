@@ -103,6 +103,23 @@ describe("XML.parse", () => {
     expect(parsed).toStrictEqual({ foo: "bar" } as XMLNode);
   });
 
+  test("should skip comments", () => {
+    const input = "<foo><!--comment-->bar</foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: "bar" } as XMLNode);
+  });
+
+  test("should skip multiple comments", () => {
+    const input = "<foo><!--comment1--><!--comment2--><bar/></foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: { bar: {} } } as XMLNode);
+  });
+
+  test("should throw on unclosed comment", () => {
+    const input = "<foo><!--unclosed";
+    expect(() => XML.parse(input)).toThrow("Unclosed comment");
+  });
+
   test("should use reviver function", () => {
     const input = "<foo>123</foo>";
     const parsed = XML.parse(input, (k, v) => {

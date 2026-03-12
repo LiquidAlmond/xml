@@ -26,6 +26,14 @@ export class Parser {
     }
   }
 
+  private skipComment(): void {
+    if (this.xml.startsWith("<!--", this.i)) {
+      const end = this.xml.indexOf("-->", this.i);
+      if (end === -1) throw new Error("Unclosed comment");
+      this.i = end + 3;
+    }
+  }
+
   private parseElement(): { name: string; value: unknown } {
     this.expect("<");
     const name = this.readName();
@@ -51,6 +59,8 @@ export class Parser {
     const children: (string | Record<string, unknown> | null)[] = [];
 
     while (!this.startsWith("</")) {
+      this.skipComment();
+
       if (this.startsWith("<![CDATA[")) {
         this.i += 9;
         const end = this.xml.indexOf("]]>", this.i);
