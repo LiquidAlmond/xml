@@ -1,0 +1,24 @@
+{
+  "name": "@liquid/xml",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/LiquidAlmond/xml#readme",
+  "bugs": {
+    "url": "https://github.com/LiquidAlmond/xml/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LiquidAlmond/xml.git"
+  },
+  "license": "MIT",
+  "author": "LiquidAlmond",
+  "type": "module",
+  "main": "lib.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.6",
+    "vitest": "^4.0.18"
+  }
+}
