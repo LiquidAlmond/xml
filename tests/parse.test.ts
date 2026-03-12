@@ -154,6 +154,24 @@ describe("XML.parse", () => {
     expect(() => XML.parse(input)).toThrow("Unclosed processing instruction");
   });
 
+  test("should skip DOCTYPE", () => {
+    const input = "<!DOCTYPE foo><foo>bar</foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: "bar" } as XMLNode);
+  });
+
+  test("should skip DOCTYPE with public identifier", () => {
+    const input = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><foo>bar</foo>';
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: "bar" } as XMLNode);
+  });
+
+  test("should skip DOCTYPE in children", () => {
+    const input = "<foo><!DOCTYPE bar><bar/></foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: { bar: {} } } as XMLNode);
+  });
+
   test("should use reviver function", () => {
     const input = "<foo>123</foo>";
     const parsed = XML.parse(input, (k, v) => {

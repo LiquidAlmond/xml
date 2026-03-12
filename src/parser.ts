@@ -20,6 +20,9 @@ export class Parser {
     while (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
       this.skipProcessingInstruction();
     }
+    if (this.xml.startsWith("<!DOCTYPE", this.i)) {
+      this.skipDoctype();
+    }
     const node = this.parseElement();
     return { [node.name]: node.value };
   }
@@ -64,6 +67,27 @@ export class Parser {
     }
   }
 
+  private skipDoctype(): void {
+    if (this.xml.startsWith("<!DOCTYPE", this.i)) {
+      let depth = 1;
+      let i = this.i + 9;
+      while (i < this.len && depth > 0) {
+        if (this.xml.startsWith("<!--", i)) {
+          const end = this.xml.indexOf("-->", i);
+          if (end === -1) throw new Error(`Unclosed comment in DOCTYPE at ${this.pos()}`);
+          i = end + 3;
+        } else if (this.xml.charCodeAt(i) === 60 && this.xml.charCodeAt(i + 1) === 33) {
+          depth++;
+          i++;
+        } else if (this.xml.charCodeAt(i) === 62) {
+          depth--;
+        }
+        i++;
+      }
+      this.advance(i - this.i);
+    }
+  }
+
   private parseElement(): { name: string; value: unknown } {
     this.expect("<");
     const name = this.readName();
@@ -95,6 +119,10 @@ export class Parser {
       if (this.startsWith("</")) break;
       while (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
         this.skipProcessingInstruction();
+      }
+      if (this.startsWith("</")) break;
+      if (this.xml.startsWith("<!DOCTYPE", this.i)) {
+        this.skipDoctype();
       }
       if (this.startsWith("</")) break;
 
