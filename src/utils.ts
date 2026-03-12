@@ -1,4 +1,4 @@
-import type { XMLNode, XMLChild } from "./types";
+import type { XMLChild, XMLNode } from "./types";
 
 export function walk(
   holder: Record<string, unknown>,

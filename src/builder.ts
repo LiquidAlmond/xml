@@ -1,4 +1,4 @@
-import type { XMLNode, XMLChild } from "./types";
+import type { XMLChild } from "./types";
 
 const ESCAPE_MAP: Record<string, string> = {
   "&": "&amp;",

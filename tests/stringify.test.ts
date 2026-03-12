@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest";
+import { describe, expect, test } from "vitest";
 import { XML } from "../src/index";
 
 describe("XML.stringify", () => {
@@ -63,7 +63,7 @@ describe("XML.stringify", () => {
   });
 
   test("should use replacer function", () => {
-    const result = XML.stringify({ foo: 123 }, (k, v) => {
+    const result = XML.stringify({ foo: 123 }, (_k, v) => {
       if (typeof v === "number") return String(v);
       return v;
     });

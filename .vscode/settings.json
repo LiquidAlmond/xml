@@ -1,5 +1,8 @@
 {
 	"editor.formatOnSave": true,
 	"biome.lsp.bin": "node_modules/@biomejs/biome",
-	"biome.requireConfiguration": true
+	"biome.requireConfiguration": true,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports.biome": "always"
+	}
 }

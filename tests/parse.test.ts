@@ -1,5 +1,5 @@
-import { describe, test, expect } from "vitest";
-import { XML, XMLNode } from "../src/index";
+import { describe, expect, test } from "vitest";
+import { XML, type XMLNode } from "../src/index";
 
 describe("XML.parse", () => {
   test("should handle text node", () => {

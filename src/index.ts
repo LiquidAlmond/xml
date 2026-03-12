@@ -1,8 +1,8 @@
-import type { XMLNode, XMLStatic, XMLReviver, XMLReplacer } from "./types";
-import { Parser } from "./parser";
 import { buildElement } from "./builder";
 import { format } from "./format";
-import { walk, applyReplacerFunction, applyReplacerArray } from "./utils";
+import { Parser } from "./parser";
+import type { XMLNode, XMLReplacer, XMLReviver, XMLStatic } from "./types";
+import { applyReplacerArray, applyReplacerFunction, walk } from "./utils";
 
 export const XML: XMLStatic = {
   parse(xml: string, reviver?: XMLReviver): XMLNode {
@@ -33,16 +33,16 @@ export const XML: XMLStatic = {
 };
 
 export type {
+  XMLAttr,
+  XMLCData,
+  XMLChild,
+  XMLChildren,
+  XMLNamespace,
   XMLNode,
   XMLPrimitive,
-  XMLChild,
-  XMLAttr,
-  XMLNamespace,
-  XMLText,
-  XMLChildren,
-  XMLCData,
-  XMLReviver,
   XMLReplacer,
+  XMLReviver,
   XMLStatic,
+  XMLText,
 } from "./types";
 export { XML as default };
