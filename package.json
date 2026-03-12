@@ -1,7 +1,7 @@
 {
   "name": "@liquid/xml",
   "version": "1.0.0",
-  "description": "",
+  "description": "XML parser and stringifier with JSON-compatible API",
   "homepage": "https://github.com/LiquidAlmond/xml#readme",
   "bugs": {
     "url": "https://github.com/LiquidAlmond/xml/issues"
@@ -13,12 +13,27 @@
   "license": "MIT",
   "author": "LiquidAlmond",
   "type": "module",
-  "main": "lib.js",
+  "main": "dist/xml.cjs.js",
+  "module": "dist/xml.esm.js",
+  "types": "dist/index.d.ts",
+  "browser": "dist/xml.js",
+  "exports": {
+    ".": {
+      "browser": "./dist/xml.js",
+      "import": "./dist/xml.esm.js",
+      "require": "./dist/xml.cjs.js"
+    }
+  },
   "scripts": {
-    "test": "vitest"
+    "build": "node esbuild.config.js",
+    "dev": "node esbuild.config.js --watch",
+    "test": "vitest",
+    "format": "biome format . --write"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.6",
+    "esbuild": "^0.27.3",
+    "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   }
 }

@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["biome.json", "*.js", "*.d.ts", "test/*.js", "package.json"]
+    "includes": [
+      "src/*.ts",
+      "tests/*.test.ts",
+      "biome.json",
+      "esbuild.config.js",
+      "tsconfig.json",
+      "package.json"
+    ]
   },
   "formatter": {
     "enabled": true,
