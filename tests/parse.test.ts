@@ -132,6 +132,11 @@ describe("XML.parse", () => {
     expect(() => XML.parse(input)).toThrow("Unclosed comment");
   });
 
+  test("should include position in error message", () => {
+    const input = "<foo bar=baz></foo>";
+    expect(() => XML.parse(input)).toThrow(/line \d+, column \d+/);
+  });
+
   test("should use reviver function", () => {
     const input = "<foo>123</foo>";
     const parsed = XML.parse(input, (k, v) => {
