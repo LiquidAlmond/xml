@@ -77,6 +77,6 @@ describe("XML.stringify", () => {
 
   test("should escape special characters", () => {
     const result = XML.stringify({ foo: "<>&\"'" });
-    expect(result).toBe("<foo>&lt;&gt;&amp;&quot;'</foo>");
+    expect(result).toBe("<foo>&lt;&gt;&amp;&quot;&apos;</foo>");
   });
 });

@@ -5,6 +5,7 @@ const ESCAPE_MAP: Record<string, string> = {
   "<": "&lt;",
   ">": "&gt;",
   '"': "&quot;",
+  "'": "&apos;",
 };
 
 export function buildElement(name: string, value: unknown): string {
