@@ -173,21 +173,51 @@ export class Parser {
 
     this.namespaces = parentNamespaces;
 
-    const hasAttrs = Object.keys(attrs).length > 0;
     const hasChildren = children.length > 0;
-    const singleChild = children.length === 1 ? children[0] : null;
-
-    if (singleChild && !hasAttrs) {
-      return { name, value: singleChild as XMLNode[string] };
-    } else if (singleChild && typeof singleChild === "string") {
-      attrs["#text"] = singleChild;
+    if (!hasChildren) {
       return { name, value: attrs };
-    } else if (hasChildren) {
+    }
+
+    const elementChildren = children.filter((c) => typeof c === "object" && c !== null) as Record<
+      string,
+      unknown
+    >[];
+    const textChildren = children.filter((c) => typeof c === "string") as string[];
+
+    if (elementChildren.length > 0 && textChildren.length > 0) {
       attrs["#children"] = children;
       return { name, value: attrs };
     }
 
-    return { name, value: attrs };
+    if (elementChildren.length === 0) {
+      if (textChildren.length === 1 && Object.keys(attrs).length === 0) {
+        return { name, value: textChildren[0] };
+      }
+      if (textChildren.length > 0 && Object.keys(attrs).length === 0) {
+        return { name, value: textChildren.join("") };
+      }
+      if (textChildren.length > 0) {
+        attrs["#text"] = textChildren.join("");
+      }
+      return { name, value: attrs };
+    }
+
+    if (elementChildren.length === 1) {
+      if (Object.keys(attrs).length === 0) {
+        return { name, value: elementChildren[0] };
+      }
+      return { name, value: { ...attrs, ...elementChildren[0] } };
+    }
+
+    const firstKey = Object.keys(elementChildren[0])[0];
+    const allSameKey = elementChildren.every((c) => Object.keys(c)[0] === firstKey);
+
+    if (allSameKey) {
+      const values = elementChildren.map((c) => c[firstKey]);
+      return { name, value: { ...attrs, [firstKey]: values } };
+    }
+
+    return { name, value: { ...attrs, ...Object.assign({}, ...elementChildren) } };
   }
 
   private readName(): string {
