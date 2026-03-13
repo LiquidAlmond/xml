@@ -172,6 +172,34 @@ describe("XML.parse", () => {
     expect(parsed).toStrictEqual({ foo: { bar: {} } } as XMLNode);
   });
 
+  test("should skip DOCTYPE at end of children", () => {
+    const input = "<foo><bar/><!DOCTYPE bar></foo>";
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({ foo: { bar: {} } } as XMLNode);
+  });
+
+  test("should parse prefixed namespace", () => {
+    const input = '<foo xmlns:ns="http://example.com"><ns:bar>text</ns:bar></foo>';
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({
+      foo: {
+        $ns: "http://example.com",
+        bar: "text",
+      },
+    } as XMLNode);
+  });
+
+  test("should parse default namespace", () => {
+    const input = '<foo xmlns="http://example.com"><bar>text</bar></foo>';
+    const parsed = XML.parse(input);
+    expect(parsed).toStrictEqual({
+      foo: {
+        $default: "http://example.com",
+        bar: "text",
+      },
+    } as XMLNode);
+  });
+
   test("should use reviver function", () => {
     const input = "<foo>123</foo>";
     const parsed = XML.parse(input, (k, v) => {

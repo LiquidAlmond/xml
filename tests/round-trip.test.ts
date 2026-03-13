@@ -9,4 +9,12 @@ describe("XML round-trip", () => {
     const reparsed = XML.parse(stringified);
     expect(reparsed).toStrictEqual(parsed);
   });
+
+  test("namespace round-trip", () => {
+    const original = '<foo xmlns:ns="http://example.com"><ns:bar>text</ns:bar></foo>';
+    const parsed = XML.parse(original);
+    const stringified = XML.stringify(parsed);
+    const reparsed = XML.parse(stringified);
+    expect(reparsed).toStrictEqual(parsed);
+  });
 });

@@ -9,6 +9,7 @@ export class Parser {
   private len: number;
   private line: number = 1;
   private column: number = 1;
+  private namespaces: Record<string, string> = {};
 
   constructor(xml: string) {
     this.xml = xml;
@@ -16,6 +17,7 @@ export class Parser {
   }
 
   parse(): any {
+    this.namespaces = {};
     this.skipDeclaration();
     while (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
       this.skipProcessingInstruction();
@@ -25,6 +27,13 @@ export class Parser {
     }
     const node = this.parseElement();
     return { [node.name]: node.value };
+  }
+
+  private stripPrefix(name: string): string {
+    const colonIndex = name.indexOf(":");
+    if (colonIndex === -1) return name;
+    const prefix = name.slice(0, colonIndex);
+    return this.namespaces[prefix] ? name.slice(colonIndex + 1) : name;
   }
 
   private pos(): string {
@@ -90,8 +99,10 @@ export class Parser {
 
   private parseElement(): { name: string; value: unknown } {
     this.expect("<");
-    const name = this.readName();
+    const rawName = this.readName();
+    const name = this.stripPrefix(rawName);
 
+    const parentNamespaces = { ...this.namespaces };
     const attrs: Record<string, unknown> = {};
     while (true) {
       this.skipWhitespace();
@@ -100,10 +111,20 @@ export class Parser {
       const attr = this.readName();
       this.expect("=");
       const val = this.readQuoted();
-      attrs[`@${attr}`] = val;
+      if (attr.startsWith("xmlns:")) {
+        const prefix = attr.slice(6);
+        this.namespaces[prefix] = val;
+        attrs[`$${prefix}`] = val;
+      } else if (attr === "xmlns") {
+        this.namespaces["_default"] = val;
+        attrs["$default"] = val;
+      } else {
+        attrs[`@${attr}`] = val;
+      }
     }
 
     if (this.peek() === "/") {
+      this.namespaces = parentNamespaces;
       this.advance(2);
       return { name, value: attrs };
     }
@@ -149,6 +170,8 @@ export class Parser {
     this.expect("</");
     this.readName();
     this.expect(">");
+
+    this.namespaces = parentNamespaces;
 
     const hasAttrs = Object.keys(attrs).length > 0;
     const hasChildren = children.length > 0;
