@@ -208,4 +208,14 @@ describe("XML.parse", () => {
     });
     expect(parsed).toStrictEqual({ foo: 123 } as XMLNode);
   });
+
+  test("should throw on text before root element", () => {
+    const input = "text<foo>bar</foo>";
+    expect(() => XML.parse(input)).toThrow();
+  });
+
+  test("should throw on text after root element", () => {
+    const input = "<foo>bar</foo>text";
+    expect(() => XML.parse(input)).toThrow();
+  });
 });

@@ -18,6 +18,10 @@ export class Parser {
 
   parse(): any {
     this.namespaces = {};
+    this.skipWhitespace();
+    if (this.i < this.len && this.xml.charCodeAt(this.i) !== 60) {
+      throw new Error(`Unexpected content before root element at ${this.pos()}`);
+    }
     this.skipDeclaration();
     while (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
       this.skipProcessingInstruction();
@@ -26,6 +30,10 @@ export class Parser {
       this.skipDoctype();
     }
     const node = this.parseElement();
+    this.skipWhitespace();
+    if (this.i < this.len) {
+      throw new Error(`Unexpected content after root element at ${this.pos()}`);
+    }
     return { [node.name]: node.value };
   }
 
