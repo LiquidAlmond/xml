@@ -24,18 +24,28 @@ export type XMLChild =
   | XMLPrimitive
   | XMLText
   | XMLCData
+  | XMLRawXML
   | {
-      [K: string]: XMLNode | XMLNode[] | XMLPrimitive | XMLPrimitive[] | XMLChild[] | undefined;
+      [K in string]:
+        | XMLNode
+        | XMLNode[]
+        | XMLPrimitive
+        | XMLPrimitive[]
+        | XMLChild[]
+        | XMLRawXML
+        | undefined;
     };
 
 export type XMLNode = {
-  [K: string]:
+  [K in string]:
     | XMLChild
     | XMLNode
     | XMLNode[]
     | XMLPrimitive
     | XMLPrimitive[]
     | XMLChild[]
+    | XMLRawXML
+    | XMLRawXML[]
     | undefined;
 };
 
@@ -45,7 +55,13 @@ export type XMLReplacer =
   | ((this: XMLNode, key: string, value: XMLChild) => any)
   | (string | number)[];
 
+export interface XMLRawXML {
+  readonly __rawXML: string;
+}
+
 export interface XMLStatic {
   parse(text: string, reviver?: XMLReviver): XMLNode;
   stringify(value: XMLNode, replacer?: XMLReplacer | null, space?: string | number): string;
+  rawXML(str: string): XMLRawXML;
+  isRawXML(value: unknown): value is XMLRawXML;
 }

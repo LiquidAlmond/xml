@@ -1,4 +1,4 @@
-import type { XMLChild } from "./types";
+import type { XMLChild, XMLRawXML } from "./types";
 
 const ESCAPE_MAP: Record<string, string> = {
   "&": "&amp;",
@@ -8,7 +8,20 @@ const ESCAPE_MAP: Record<string, string> = {
   "'": "&apos;",
 };
 
+function isRawXML(value: unknown): value is XMLRawXML {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    "__rawXML" in value &&
+    typeof (value as XMLRawXML).__rawXML === "string"
+  );
+}
+
 export function buildElement(name: string, value: unknown): string {
+  if (isRawXML(value)) {
+    return `<${name}>${value.__rawXML}</${name}>`;
+  }
+
   if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
     return `<${name}>${escapeChar(value)}</${name}>`;
   }
@@ -33,7 +46,9 @@ export function buildElement(name: string, value: unknown): string {
 
     if (key === "#children") {
       for (const child of v as XMLChild[]) {
-        if (typeof child === "string") {
+        if (isRawXML(child)) {
+          childParts.push(child.__rawXML);
+        } else if (typeof child === "string") {
           childParts.push(escapeChar(child));
         } else if (child && typeof child === "object" && "[CDATA]" in child) {
           childParts.push(`<![CDATA[${(child as { "[CDATA]": string })["[CDATA]"]}]]>`);
@@ -46,14 +61,27 @@ export function buildElement(name: string, value: unknown): string {
     }
 
     if (key === "#text") {
-      childParts.push(escapeChar(v));
+      if (isRawXML(v)) {
+        childParts.push(v.__rawXML);
+      } else {
+        childParts.push(escapeChar(v));
+      }
       continue;
     }
 
     if (Array.isArray(v)) {
       for (const item of v) {
-        childParts.push(buildElement(key, item));
+        if (isRawXML(item)) {
+          childParts.push(`<${key}>${item.__rawXML}</${key}>`);
+        } else {
+          childParts.push(buildElement(key, item));
+        }
       }
+      continue;
+    }
+
+    if (isRawXML(v)) {
+      childParts.push(v.__rawXML);
       continue;
     }
 

@@ -1,8 +1,31 @@
 import { buildElement } from "./builder";
 import { format } from "./format";
 import { Parser } from "./parser";
-import type { XMLNode, XMLReplacer, XMLReviver, XMLStatic } from "./types";
+import type { XMLNode, XMLRawXML, XMLReplacer, XMLReviver, XMLStatic } from "./types";
 import { applyReplacerArray, applyReplacerFunction, walk } from "./utils";
+
+function isRawXML(value: unknown): value is XMLRawXML {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    "__rawXML" in value &&
+    typeof (value as XMLRawXML).__rawXML === "string"
+  );
+}
+
+function rawXML(str: string): XMLRawXML {
+  if (typeof str !== "string") {
+    throw new TypeError("XML.rawXML: argument must be a string");
+  }
+  return Object.create(null, {
+    __rawXML: {
+      value: str,
+      writable: false,
+      enumerable: true,
+      configurable: false,
+    },
+  }) as XMLRawXML;
+}
 
 export const XML: XMLStatic = {
   parse(xml: string, reviver?: XMLReviver): XMLNode {
@@ -30,6 +53,10 @@ export const XML: XMLStatic = {
 
     return xml;
   },
+
+  rawXML,
+
+  isRawXML,
 };
 
 export type {
@@ -40,6 +67,7 @@ export type {
   XMLNamespace,
   XMLNode,
   XMLPrimitive,
+  XMLRawXML,
   XMLReplacer,
   XMLReviver,
   XMLStatic,
