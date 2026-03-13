@@ -218,4 +218,9 @@ describe("XML.parse", () => {
     const input = "<foo>bar</foo>text";
     expect(() => XML.parse(input)).toThrow();
   });
+
+  test("should throw multiple root elements", () => {
+    const input = "<foo/><bar/>";
+    expect(() => XML.parse(input)).toThrow();
+  });
 });
