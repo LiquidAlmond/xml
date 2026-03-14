@@ -10,6 +10,7 @@
     "includes": [
       "src/*.ts",
       "tests/*.test.ts",
+      "benchmark/**/*.{ts,mjs}",
       "biome.json",
       "esbuild.config.js",
       "tsconfig.json",
