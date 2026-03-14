@@ -23,12 +23,15 @@ export class Parser {
       throw new Error(`Unexpected content before root element at ${this.pos()}`);
     }
     this.skipDeclaration();
+    this.skipWhitespace();
     while (this.xml.charCodeAt(this.i) === 60 && this.xml.charCodeAt(this.i + 1) === 63) {
       this.skipProcessingInstruction();
     }
+    this.skipWhitespace();
     if (this.xml.startsWith("<!DOCTYPE", this.i)) {
       this.skipDoctype();
     }
+    this.skipWhitespace();
     const node = this.parseElement();
     this.skipWhitespace();
     if (this.i < this.len) {
@@ -50,7 +53,11 @@ export class Parser {
 
   private advance(n: number): void {
     for (let j = 0; j < n; j++) {
-      if (this.xml.charCodeAt(this.i + j) === 10) {
+      const ch = this.xml.charCodeAt(this.i + j);
+      if (ch === 10) {
+        this.line++;
+        this.column = 1;
+      } else if (ch === 13) {
         this.line++;
         this.column = 1;
       } else {
@@ -257,7 +264,7 @@ export class Parser {
     }
     const text = this.xml.slice(start, this.i);
     for (const ch of text) {
-      if (ch === "\n") {
+      if (ch === "\n" || ch === "\r") {
         this.line++;
         this.column = 1;
       } else {
@@ -268,7 +275,10 @@ export class Parser {
   }
 
   private expect(s: string): void {
-    if (!this.startsWith(s)) throw new Error(`Invalid XML at ${this.pos()}: expected "${s}"`);
+    if (!this.startsWith(s))
+      throw new Error(
+        `Invalid XML at ${this.pos()}: expected "${s}", encountered "${this.xml[0]}"`,
+      );
     this.advance(s.length);
   }
 
