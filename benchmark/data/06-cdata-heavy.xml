@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documents>
+    <doc id="1" type="html">
+        <title>HTML Document</title>
+        <content><![CDATA[<html>
+<head>
+    <title>Sample Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome</h1>
+        <p>This is a sample HTML document with <strong>CDATA</strong>.</p>
+        <script>
+            function greet(name) {
+                return "Hello, " + name + "!";
+            }
+            console.log(greet("World"));
+        </script>
+    </div>
+</body>
+</html>]]></content>
+    </doc>
+    <doc id="2" type="javascript">
+        <title>JavaScript Code</title>
+        <content><![CDATA[// Example JavaScript module
+const http = require('http');
+const fs = require('fs');
+
+function readFile(path) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, 'utf8', (err, data) => {
+            if (err) reject(err);
+            else resolve(data);
+        });
+    });
+}
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Hello World!');
+});
+
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000/');
+});]]></content>
+    </doc>
+    <doc id="3" type="css">
+        <title>CSS Stylesheet</title>
+        <content><![CDATA[/* Main stylesheet */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+}]]></content>
+    </doc>
+    <doc id="4" type="sql">
+        <title>SQL Query</title>
+        <content><![CDATA[-- Complex SQL query with joins and aggregations
+SELECT 
+    u.id,
+    u.name,
+    u.email,
+    COUNT(o.id) as order_count,
+    SUM(o.total) as total_spent,
+    AVG(o.total) as avg_order_value
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE u.created_at >= '2023-01-01'
+    AND u.status = 'active'
+GROUP BY u.id, u.name, u.email
+HAVING COUNT(o.id) > 5
+ORDER BY total_spent DESC
+LIMIT 100;]]></content>
+    </doc>
+    <doc id="5" type="json">
+        <title>JSON Data</title>
+        <content><![CDATA[{
+  "name": "John Doe",
+  "age": 30,
+  "email": "john@example.com",
+  "address": {
+    "street": "123 Main St",
+    "city": "New York",
+    "country": "USA"
+  },
+  "hobbies": ["reading", "coding", "hiking"],
+  "projects": [
+    {
+      "name": "XML Parser",
+      "language": "TypeScript",
+      "stars": 150
+    },
+    {
+      "name": "Weather App",
+      "language": "React",
+      "stars": 89
+    }
+  ]
+}]]></content>
+    </doc>
+    <doc id="6" type="python">
+        <title>Python Script</title>
+        <content><![CDATA[#!/usr/bin/env python3
+import asyncio
+import aiohttp
+from typing import Dict, List, Any
+
+async def fetch_url(session: aiohttp.ClientSession, url: str) -> Dict[str, Any]:
+    async with session.get(url) as response:
+        return await response.json()
+
+async def main():
+    urls = [
+        "https://api.example.com/users",
+        "https://api.example.com/posts",
+        "https://api.example.com/comments"
+    ]
+    
+    async with aiohttp.ClientSession() as session:
+        tasks = [fetch_url(session, url) for url in urls]
+        results = await asyncio.gather(*tasks)
+        
+    for result in results:
+        print(f"Fetched {len(result)} items")
+
+if __name__ == "__main__":
+    asyncio.run(main())]]></content>
+    </doc>
+    <doc id="7" type="xml">
+        <title>Nested XML</title>
+        <content><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <database>
+        <host>localhost</host>
+        <port>5432</port>
+        <name>myapp</name>
+    </database>
+    <server>
+        <port>8080</port>
+        <cors enabled="true">
+            <origin>https://example.com</origin>
+        </cors>
+    </server>
+</config>]]></content>
+    </doc>
+    <doc id="8" type="bash">
+        <title>Bash Script</title>
+        <content><![CDATA[#!/bin/bash
+# Deployment script
+
+set -e
+
+echo "Starting deployment..."
+
+# Build the application
+npm run build
+
+# Run tests
+npm test
+
+# Stop old container
+docker-compose down
+
+# Build and start new container
+docker-compose up -d --build
+
+# Check health
+sleep 5
+curl -f http://localhost:3000/health || exit 1
+
+echo "Deployment complete!"]]></content>
+    </doc>
+    <doc id="9" type="svg">
+        <title>SVG Image</title>
+        <content><![CDATA[<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="40" fill="#667eea"/>
+  <circle cx="50" cy="50" r="30" fill="#764ba2"/>
+  <text x="50" y="55" text-anchor="middle" fill="white" font-size="20">SVG</text>
+</svg>]]></content>
+    </doc>
+    <doc id="10" type="template">
+        <title>Email Template</title>
+        <content><![CDATA[Subject: Welcome to Our Platform!
+
+Dear {{name}},
+
+Thank you for signing up for {{app_name}}!
+
+Your account details:
+- Email: {{email}}
+- Username: {{username}}
+- Plan: {{plan}}
+
+Get started by visiting: {{dashboard_url}}
+
+Best regards,
+The {{app_name}} Team
+
+---
+© 2024 {{app_name}}. All rights reserved.]]></content>
+    </doc>
+</documents>

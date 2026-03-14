@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+    <title>Understanding <emphasis>Mixed Content</emphasis> in XML</title>
+    <author>
+        <name>John Doe</name>
+        <email>john@example.com</email>
+    </author>
+    <metadata>
+        <published>2024-01-15</published>
+        <category>Technology</category>
+        <tags>xml, programming, tutorial</tags>
+    </metadata>
+    <content>
+        <section>
+            <heading>Introduction</heading>
+            <paragraph>XML (Extensible Markup Language) is a <link href="https://www.w3.org/XML/">versatile markup language</link> that allows developers to define their own tags. One of its powerful features is <term>mixed content</term>.</paragraph>
+            <paragraph>Mixed content occurs when an element contains both text and child elements. This is common in documents like <citation>HTML</citation>, <citation>XHTML</citation>, and other structured document formats.</paragraph>
+        </section>
+        <section>
+            <heading>Why Use Mixed Content?</heading>
+            <paragraph>Mixed content is useful for:</paragraph>
+            <list type="bullet">
+                <item>Creating <emphasis>rich text</emphasis> documents</item>
+                <item>Marking up <term>semantic</term> content within prose</item>
+                <item>Preserving <code>formatting</code> information</item>
+                <item>Building <link href="#">hypertext</link> structures</item>
+            </list>
+            <paragraph>Consider this example where we have text with <emphasis>emphasis</emphasis>, <strong>strong</strong>, and <code>inline code</code> all within the same paragraph.</paragraph>
+        </section>
+        <section>
+            <heading>Technical Details</heading>
+            <paragraph>According to the <citation>XML 1.0 Specification</citation>, mixed content is declared in the DTD as:</paragraph>
+            <codeblock>
+&lt;!ELEMENT paragraph (#PCDATA | emphasis | strong | code | link)*&gt;
+            </codeblock>
+            <paragraph>Where:</paragraph>
+            <list type="ordered">
+                <item><term>PCDATA</term> - Parsed Character Data (the text)</item>
+                <item><term>emphasis</term> - <emphasis>Italic text</emphasis></item>
+                <item><term>strong</term> - <strong>Bold text</strong></li>
+                <li><term>code</term> - <code>Code snippets</code></item>
+                <item><term>link</term> - <link href="#">Hyperlinks</link></item>
+            </list>
+        </section>
+        <section>
+            <heading>Best Practices</heading>
+            <paragraph>When working with mixed content in XML:</paragraph>
+            <list type="bullet">
+                <item>Use meaningful element names that describe <term>semantics</term></item>
+                <item>Avoid over-structuring simple text content</item>
+                <item>Maintain consistency in your <term>content model</term></li>
+                <item>Consider using <link href="#">attributes</link> for metadata</item>
+            </list>
+            <blockquote>
+                <paragraph>"The power of XML lies in its flexibility to represent structured data in a human-readable format."</paragraph>
+                <attribution>XML Best Practices Guide</attribution>
+            </blockquote>
+        </section>
+        <section>
+            <heading>Conclusion</heading>
+            <paragraph>Mixed content is a fundamental concept in XML that enables rich document authoring. By understanding how to properly model mixed content, developers can create <emphasis>more expressive</emphasis> and <term>semantically meaningful</term> XML documents.</paragraph>
+            <paragraph>For more information, visit our <link href="#">documentation</link> or contact us at <email>support@example.com</email>.</paragraph>
+        </section>
+    </content>
+    <related-articles>
+        <article-ref id="1">
+            <title>XML Schema Design Patterns</title>
+            <url>/articles/xml-schema-patterns</url>
+        </article-ref>
+        <article-ref id="2">
+            <title>XPath Fundamentals</title>
+            <url>/articles/xpath-fundamentals</url>
+        </article-ref>
+        <article-ref id="3">
+            <title>XSLT Transformations</title>
+            <url>/articles/xslt-transformations</url>
+        </article-ref>
+    </related-articles>
+</article>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:thr="http://purl.org/syndication/thread/1.0">
+    <id>urn:uuid:550e8400-e29b-41d4-a716-446655440000</id>
+    <title>Tech News Daily - Atom Feed</title>
+    <updated>2025-01-15T12:00:00Z</updated>
+    <author>
+        <name>Tech News Daily</name>
+        <email>editor@technews.example.com</email>
+        <uri>https://technews.example.com/about</uri>
+    </author>
+    <link href="https://technews.example.com" rel="alternate"/>
+    <link href="https://technews.example.com/atom.xml" rel="self"/>
+    <link href="https://technews.example.com/rss.xml" rel="alternate" type="application/rss+xml"/>
+    <icon>https://technews.example.com/favicon.ico</icon>
+    <logo>https://technews.example.com/logo.png</logo>
+    <rights>Copyright 2024 Tech News Daily. All rights reserved.</rights>
+    <subtitle>Latest technology news and updates from around the world</subtitle>
+    <entry>
+        <id>urn:uuid:550e8400-e29b-41d4-a716-446655440001</id>
+        <title>New AI Model Breaks Performance Records</title>
+        <updated>2025-01-15T10:00:00Z</updated>
+        <published>2025-01-15T10:00:00Z</published>
+        <author>
+            <name>John Doe</name>
+            <email>john.doe@technews.example.com</email>
+            <uri>https://technews.example.com/authors/john-doe</uri>
+        </author>
+        <link href="https://technews.example.com/articles/ai-model-breaks-records" rel="alternate"/>
+        <link href="https://technews.example.com/articles/ai-model-breaks-records" rel="enclosure" type="image/jpeg" length="12345" href="https://technews.example.com/images/ai-model.jpg"/>
+        <summary>A new artificial intelligence model has set new benchmarks in natural language processing, achieving unprecedented accuracy.</summary>
+        <content type="html"><![CDATA[<p>A new artificial intelligence model has set new benchmarks in natural language processing...</p>]]></content>
+        <category term="Artificial Intelligence" scheme="https://technews.example.com/categories"/>
+        <category term="Technology" scheme="https://technews.example.com/categories"/>
+        <media:content url="https://technews.example.com/images/ai-model.jpg" type="image/jpeg" width="800" height="600"/>
+        <thr:replies href="https://technews.example.com/articles/ai-model-breaks-records/comments" count="42"/>
+    </entry>
+    <entry>
+        <id>urn:uuid:550e8400-e29b-41d4-a716-446655440002</id>
+        <title>Quantum Computing Milestone Achieved</title>
+        <updated>2025-01-14T15:30:00Z</updated>
+        <published>2025-01-14T15:30:00Z</published>
+        <author>
+            <name>Jane Smith</name>
+            <email>jane.smith@technews.example.com</email>
+        </author>
+        <link href="https://technews.example.com/articles/quantum-computing-milestone" rel="alternate"/>
+        <summary>Researchers have achieved a major breakthrough in quantum computing.</summary>
+        <category term="Quantum Computing" scheme="https://technews.example.com/categories"/>
+        <category term="Research" scheme="https://technews.example.com/categories"/>
+    </entry>
+    <entry>
+        <id>urn:uuid:550e8400-e29b-41d4-a716-446655440003</id>
+        <title>Revolutionary Battery Technology Promises Week-Long Phone Charge</title>
+        <updated>2025-01-13T09:00:00Z</updated>
+        <published>2025-01-13T09:00:00Z</published>
+        <author>
+            <name>Mike Johnson</name>
+            <email>mike.johnson@technews.example.com</email>
+        </author>
+        <link href="https://technews.example.com/articles/new-battery-tech" rel="alternate"/>
+        <summary>A startup has developed solid-state battery technology.</summary>
+        <category term="Hardware" scheme="https://technews.example.com/categories"/>
+    </entry>
+</feed>

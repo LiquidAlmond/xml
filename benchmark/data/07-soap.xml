@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <soap:Header>
+        <wsa:Action>http://example.com/orderservice/GetOrderResponse</wsa:Action>
+        <wsa:MessageID>urn:uuid:550e8400-e29b-41d4-a716-446655440000</wsa:MessageID>
+        <wsa:RelatesTo>urn:uuid:550e8400-e29b-41d4-a716-446655440001</wsa:RelatesTo>
+        <wsa:To>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:To>
+        <wsse:Security>
+            <wsu:Timestamp wsu:Id="Timestamp-550e8400-e29b-41d4-a716-446655440002">
+                <wsu:Created>2025-01-15T12:00:00Z</wsu:Created>
+                <wsu:Expires>2025-01-15T12:05:00Z</wsu:Expires>
+            </wsu:Timestamp>
+            <wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="UsernameToken-550e8400-e29b-41d4-a716-446655440003">
+                <wsse:Username>customer@example.com</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">hashedpasswordvalue</wsse:Password>
+                <wsse:Nonce>base64encodednonce</wsse:Nonce>
+                <wsu:Created>2025-01-15T12:00:00Z</wsu:Created>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soap:Header>
+    <soap:Body>
+        <GetOrderResponse xmlns="http://example.com/orderservice/">
+            <Order xmlns="http://example.com/orderservice/types/">
+                <OrderID>ORD-2025-001234</OrderID>
+                <CustomerID>CUST-56789</CustomerID>
+                <OrderDate>2025-01-10T14:30:00Z</OrderDate>
+                <Status>Processing</Status>
+                <ShippingAddress>
+                    <Name>John Doe</Name>
+                    <Street>123 Main Street</Street>
+                    <City>New York</City>
+                    <State>NY</State>
+                    <PostalCode>10001</PostalCode>
+                    <Country>USA</Country>
+                </ShippingAddress>
+                <BillingAddress>
+                    <Name>John Doe</Name>
+                    <Street>123 Main Street</Street>
+                    <City>New York</City>
+                    <State>NY</State>
+                    <PostalCode>10001</PostalCode>
+                    <Country>USA</Country>
+                </BillingAddress>
+                <Items>
+                    <Item>
+                        <ProductID>PROD-001</ProductID>
+                        <ProductName>Wireless Mouse</ProductName>
+                        <Quantity>2</Quantity>
+                        <UnitPrice>29.99</UnitPrice>
+                        <Total>59.98</Total>
+                    </Item>
+                    <Item>
+                        <ProductID>PROD-002</ProductID>
+                        <ProductName>USB Keyboard</ProductName>
+                        <Quantity>1</Quantity>
+                        <UnitPrice>79.99</UnitPrice>
+                        <Total>79.99</Total>
+                    </Item>
+                    <Item>
+                        <ProductID>PROD-003</ProductID>
+                        <ProductName>Monitor Stand</ProductName>
+                        <Quantity>1</Quantity>
+                        <UnitPrice>49.99</UnitPrice>
+                        <Total>49.99</Total>
+                    </Item>
+                </Items>
+                <Subtotal>189.96</Subtotal>
+                <Tax>15.20</Tax>
+                <Shipping>9.99</Shipping>
+                <Total>215.15</Total>
+                <PaymentMethod>CreditCard</PaymentMethod>
+                <PaymentTransactionID>TXN-2025-001234</PaymentTransactionID>
+                <Notes>Please leave at front door if not home.</Notes>
+            </Order>
+        </GetOrderResponse>
+    </soap:Body>
+</soap:Envelope>

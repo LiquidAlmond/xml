@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <item>Invalid character in tag: <bad[tag]>test</bad[tag]></item>
+    <another>More data</another>
+</root>
