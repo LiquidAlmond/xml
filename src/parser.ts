@@ -320,8 +320,11 @@ export class Parser {
       }
 
       if (tagType === TagType.Text) {
-        textParts.push(this.xml[this.i]);
-        this.consume();
+        const textStart = this.i;
+        while (this.i < this.len && this.peek() !== CHAR_LT) {
+          this.consume();
+        }
+        textParts.push(this.xml.slice(textStart, this.i));
         continue;
       }
 
@@ -410,22 +413,44 @@ export class Parser {
     attrs: Record<string, unknown>,
     children: (string | Record<string, unknown>)[],
   ): { name: string; value: unknown } {
-    const elementChildren = children.filter(
-      (c): c is Record<string, unknown> => typeof c === "object" && c !== null,
-    );
+    const elementChildren: Record<string, unknown>[] = [];
+    const len = children.length;
+    for (let i = 0; i < len; i++) {
+      const c = children[i];
+      if (typeof c === "object" && c !== null) {
+        elementChildren.push(c);
+      }
+    }
 
-    if (elementChildren.length === 1) {
-      if (Object.keys(attrs).length === 0) {
+    const attrKeys = Object.keys(attrs);
+    const hasAttrs = attrKeys.length > 0;
+    const numChildren = elementChildren.length;
+
+    if (numChildren === 1) {
+      if (!hasAttrs) {
         return { name, value: elementChildren[0] };
       }
       return { name, value: { ...attrs, ...elementChildren[0] } };
     }
 
     const firstKey = Object.keys(elementChildren[0])[0];
-    const allSameKey = elementChildren.every((c) => Object.keys(c)[0] === firstKey);
+    let allSameKey = true;
+    for (let i = 1; i < numChildren; i++) {
+      const key = Object.keys(elementChildren[i])[0];
+      if (key !== firstKey) {
+        allSameKey = false;
+        break;
+      }
+    }
 
     if (allSameKey) {
-      const values = elementChildren.map((c) => c[firstKey]);
+      const values = new Array(numChildren);
+      for (let i = 0; i < numChildren; i++) {
+        values[i] = elementChildren[i][firstKey];
+      }
+      if (!hasAttrs) {
+        return { name, value: { [firstKey]: values } };
+      }
       return { name, value: { ...attrs, [firstKey]: values } };
     }
 
