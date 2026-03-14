@@ -15,7 +15,7 @@ const domParser = new DOMParser();
 
 const input = readFileSync("./.fixtures/small.xml", "utf8");
 
-bench("@liquid/xml parse - small", () => {
+bench("@liquiddev/xml parse - small", () => {
   XML.parse(input);
 });
 

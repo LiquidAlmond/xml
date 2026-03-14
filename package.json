@@ -1,5 +1,5 @@
 {
-  "name": "@liquid/xml",
+  "name": "@liquiddev/xml",
   "version": "1.0.0",
   "description": "XML parser and stringifier with JSON-compatible API",
   "homepage": "https://github.com/LiquidAlmond/xml#readme",

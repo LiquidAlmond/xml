@@ -15,7 +15,7 @@ const domParser = new DOMParser();
 
 const input = readFileSync("./.fixtures/medium.xml", "utf8");
 
-bench("@liquid/xml parse - medium", () => {
+bench("@liquiddev/xml parse - medium", () => {
   XML.parse(input);
 });
 
