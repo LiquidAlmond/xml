@@ -184,7 +184,7 @@ describe("XML.parse", () => {
     expect(parsed).toStrictEqual({
       foo: {
         $ns: "http://example.com",
-        bar: "text",
+        "ns:bar": "text",
       },
     } as XMLNode);
   });

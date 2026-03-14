@@ -304,10 +304,9 @@ export class Parser {
     const { attrs, selfClosing } = this.parseAttributes(namespaces);
 
     if (selfClosing) {
-      return { name: this.stripPrefix(rawName, namespaces), value: attrs };
+      return { name: rawName, value: attrs };
     }
 
-    const name = this.stripPrefix(rawName, namespaces);
     const children: (string | Record<string, unknown>)[] = [];
     let hasElement = false;
     let hasText = false;
@@ -363,7 +362,7 @@ export class Parser {
       hasText = true;
     }
 
-    return this.buildElementResult(name, attrs, children, hasElement, hasText);
+    return this.buildElementResult(rawName, attrs, children, hasElement, hasText);
   }
 
   private buildElementResult(
@@ -460,12 +459,5 @@ export class Parser {
     const val = this.xml.slice(start, this.i);
     this.consume();
     return val;
-  }
-
-  private stripPrefix(name: string, namespaces: Map<string, string>): string {
-    const colonIndex = name.indexOf(":");
-    if (colonIndex === -1) return name;
-    const prefix = name.slice(0, colonIndex);
-    return namespaces.has(prefix) ? name.slice(colonIndex + 1) : name;
   }
 }
