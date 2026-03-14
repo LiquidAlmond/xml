@@ -1,0 +1,9 @@
+.vscode
+.fixtures
+benchmark
+src
+tests
+tsconfig.json
+biome.json
+esbuild.config.js
+*.js.map
